@@ -18,29 +18,29 @@ export async function getStaticProps(context) {
     integration: "airtable_datasource",
   };
   try {
-    const db = await MindsDB.connect({
+    await MindsDB.connect({
       user: process.env.MINDDB_USER,
       password: process.env.MINDDB_PASS,
     });
-    console.log("connected to mindsdb", db);
-    // const airDatabase = await MindsDB.Databases.createDatabase(
-    //   "airtable_datasource",
-    //   "airtable",
-    //   connectionParams
-    // );
-    // console.log("connected to airtable", airDatabase);
-    // let WeatherPredictorModel = await MindsDB.Models.trainModel(
-    //   "weather_predictor_model",
-    //   "weather",
-    //   "mindsdb",
-    //   regressionTrainingOptions
-    // );
+    
+    let WeatherPredictorModel;
+    // Can also use MindsDB.Databases.getAllDatabases() to get all databases.
+    const db = await MindsDB.Databases.getDatabase("airtable_datasource");
+    if (!db) {
+      await MindsDB.Databases.createDatabase(
+        "airtable_datasource",
+        "airtable",
+        connectionParams
+      );
+      WeatherPredictorModel = await MindsDB.Models.trainModel(
+        "weather_predictor_model",
+        "weather",
+        "mindsdb",
+        regressionTrainingOptions
+      );
+    }
 
-    // // // Wait for the training to be complete. This is just a simple example. There are much better ways to do this.
-    // console.log("after awaiting integration", WeatherPredictorModel)
-    // while (WeatherPredictorModel.status === "completed") {
-    // }
-    let WeatherPredictorModel = await MindsDB.Models.getModel(
+    WeatherPredictorModel = await MindsDB.Models.getModel(
       "weather_predictor_model",
       "mindsdb"
     );
@@ -55,22 +55,14 @@ export async function getStaticProps(context) {
     };
     const weatherPrediction = await WeatherPredictorModel.query(queryOptions);
     const response = await weatherPrediction;
-    console.log("value ==>",weatherPrediction.value);
-    console.log("wxplain ==>",weatherPrediction.explain);
-    console.log("data ==>",weatherPrediction.data);
-    console.log("res ==>",response);
+    console.log("value ==>", weatherPrediction.value);
+    console.log("explain ==>", weatherPrediction.explain);
+    console.log("data ==>", weatherPrediction.data);
+    console.log("res ==>", response);
   } catch (error) {
-    console.log(error);
     // Failed to authenticate.
+    console.log(error);
   }
-
-  // try {
-  //   // MindsDB.Models.retrainModel has the same interface for retraining models.
-  //   // The returned promise resolves when the model is created, NOT when training is actually complete.
-
-  // } catch (error) {
-  //   // Something went wrong training or querying.
-  // }
   return {
     props: {},
   };
