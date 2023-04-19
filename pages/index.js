@@ -1,13 +1,50 @@
 import MindsDB from "mindsdb-js-sdk";
+import Chart from 'chart.js/auto'
 
-export default function Home() {
-  // console.log(response);
+export default function Home({ response }) {
+  console.log(response);
+  const data = [
+    { year: 2010, count: 10 },
+    { year: 2011, count: 20 },
+    { year: 2012, count: 15 },
+    { year: 2013, count: 25 },
+    { year: 2014, count: 22 },
+    { year: 2015, count: 30 },
+    { year: 2016, count: 28 },
+  ];
+
+  const BarChart = new Chart(
+    document.getElementById('acquisitions'),
+    {
+      type: 'bar',
+      data: {
+        labels: data.map(row => row.year),
+        datasets: [
+          {
+            label: 'Acquisitions by year',
+            data: data.map(row => row.count)
+          }
+        ]
+      }
+    }
+  );
   return (
-    <div className="text-3xl font-bold underline">Welcome to Next.js!</div>
+    <div>
+      <h1 className="text-3xl font-bold underline">Welcome to weater forecast</h1>
+
+      <canvas>
+        {BarChart}
+      </canvas>
+        <div>
+          <h2>weater : {response.value}</h2>
+            <pre>{JSON.stringify(response, null, 4)}</pre>
+        </div>
+     
+    </div>
   );
 }
 
-export async function getStaticProps(context) {
+export async function getServerSideProps() {
   const connectionParams = {
     base_id: process.env.AIRTABLE_BASE_ID,
     table_name: process.env.AIRTABLE_TABLE_NAME,
@@ -17,13 +54,13 @@ export async function getStaticProps(context) {
     select: "SELECT * FROM weather",
     integration: "airtable_datasource",
   };
+  let WeatherPredictorModel;
   try {
     await MindsDB.connect({
       user: process.env.MINDDB_USER,
       password: process.env.MINDDB_PASS,
     });
-    
-    let WeatherPredictorModel;
+
     // Can also use MindsDB.Databases.getAllDatabases() to get all databases.
     const db = await MindsDB.Databases.getDatabase("airtable_datasource");
     if (!db) {
@@ -40,30 +77,31 @@ export async function getStaticProps(context) {
       );
     }
 
-    WeatherPredictorModel = await MindsDB.Models.getModel(
-      "weather_predictor_model",
-      "mindsdb"
-    );
-
-    const queryOptions = {
-      where: [
-        'date = "2012-01-03"',
-        "temp_max = 11.7",
-        "temp_min = 7.2",
-        "wind = 2.3",
-      ],
-    };
-    const weatherPrediction = await WeatherPredictorModel.query(queryOptions);
-    const response = await weatherPrediction;
-    console.log("value ==>", weatherPrediction.value);
-    console.log("explain ==>", weatherPrediction.explain);
-    console.log("data ==>", weatherPrediction.data);
-    console.log("res ==>", response);
+    // console.log("value ==>", weatherPrediction.value);
+    // console.log("explain ==>", weatherPrediction.explain);
+    // console.log("data ==>", weatherPrediction.data);
+    console.log("res ==>", [response]);
   } catch (error) {
     // Failed to authenticate.
     console.log(error);
   }
+  WeatherPredictorModel = await MindsDB.Models.getModel(
+    "weather_predictor_model",
+    "mindsdb"
+  );
+
+  const queryOptions = {
+    where: [
+      'date = "2023-04-20"',
+      "temp_max = 12.0",
+      "temp_min = 1.2",
+      "wind = 0.3",
+    ],
+  };
+  const weatherPrediction = await WeatherPredictorModel.query(queryOptions);
+  const response = weatherPrediction;
+  console.log("res ==>", [response]);
   return {
-    props: {},
+    props: { response },
   };
 }
