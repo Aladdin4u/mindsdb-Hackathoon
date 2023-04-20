@@ -1,9 +1,12 @@
 import MindsDB from "mindsdb-js-sdk";
-import Chart from 'chart.js/auto'
+import Chart from "chart.js/auto";
+import { CategoryScale } from "chart.js";
+import { Pie, Bar } from "react-chartjs-2";
 
+Chart.register(CategoryScale);
 export default function Home({ response }) {
   console.log(response);
-  const data = [
+  const Data = [
     { year: 2010, count: 10 },
     { year: 2011, count: 20 },
     { year: 2012, count: 15 },
@@ -13,33 +16,42 @@ export default function Home({ response }) {
     { year: 2016, count: 28 },
   ];
 
-  const BarChart = new Chart(
-    document.getElementById('acquisitions'),
-    {
-      type: 'bar',
-      data: {
-        labels: data.map(row => row.year),
-        datasets: [
-          {
-            label: 'Acquisitions by year',
-            data: data.map(row => row.count)
-          }
-        ]
-      }
-    }
-  );
+  const data = {
+    labels: Data.map((row) => row.year),
+    datasets: [
+      {
+        label: "Acquisitions by year",
+        data: Data.map((row) => row.count),
+      },
+    ],
+    backgroundColor: [
+      "blue","red","green","purple"
+    ],
+  };
   return (
     <div>
-      <h1 className="text-3xl font-bold underline">Welcome to weater forecast</h1>
+      <h1 className="text-3xl font-bold underline">
+        Welcome to weater forecast
+      </h1>
 
-      <canvas>
-        {BarChart}
-      </canvas>
-        <div>
-          <h2>weater : {response.value}</h2>
-            <pre>{JSON.stringify(response, null, 4)}</pre>
-        </div>
-     
+      <div className="w-[18] h-[18]">
+        <h2>Pie Chart</h2>
+        <Bar
+          data={data}
+          options={{
+            Plugin: {
+              title: {
+                display: true,
+                text: "Users gained between 2010-2016",
+              },
+            },
+          }}
+        />
+      </div>
+      <div>
+        <h2>weater : {response.value}</h2>
+        <pre>{JSON.stringify(response, null, 4)}</pre>
+      </div>
     </div>
   );
 }
