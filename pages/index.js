@@ -5,7 +5,8 @@ import { Pie, Bar } from "react-chartjs-2";
 
 Chart.register(CategoryScale);
 export default function Home({ response }) {
-  console.log(response);
+  // console.log(response);
+
   const Data = [
     { year: 2010, count: 10 },
     { year: 2011, count: 20 },
@@ -24,9 +25,7 @@ export default function Home({ response }) {
         data: Data.map((row) => row.count),
       },
     ],
-    backgroundColor: [
-      "blue","red","green","purple"
-    ],
+    backgroundColor: ["blue", "red", "green", "purple"],
   };
   return (
     <div>
@@ -48,57 +47,63 @@ export default function Home({ response }) {
           }}
         />
       </div>
-      <div>
+      {/* <div>
         <h2>weater : {response.value}</h2>
         <pre>{JSON.stringify(response, null, 4)}</pre>
-      </div>
+      </div> */}
     </div>
   );
 }
 
 export async function getServerSideProps() {
   const connectionParams = {
-    base_id: process.env.AIRTABLE_BASE_ID,
-    table_name: process.env.AIRTABLE_TABLE_NAME,
-    api_key: process.env.AIRTABLE_API_KEY,
+    host: process.env.SUPERBASE_HOST,
+    port: process.env.SUPERBASE_PORT,
+    database: process.env.SUPERBASE_DB,
+    user: process.env.SUPERBASE_USER,
+    password: process.env.SUPERBASE_PASS,
   };
   const regressionTrainingOptions = {
-    select: "SELECT * FROM weather",
-    integration: "airtable_datasource",
+    select: "SELECT * FROM matchstats",
+    integration: "supabase",
   };
-  let WeatherPredictorModel;
+  let ScorePredictorModel;
   try {
+
     await MindsDB.connect({
       user: process.env.MINDDB_USER,
       password: process.env.MINDDB_PASS,
     });
 
     // Can also use MindsDB.Databases.getAllDatabases() to get all databases.
-    const db = await MindsDB.Databases.getDatabase("airtable_datasource");
+    const db = await MindsDB.Databases.getDatabase("sup_datasource");
     if (!db) {
-      await MindsDB.Databases.createDatabase(
-        "airtable_datasource",
-        "airtable",
+      const sup = await MindsDB.Databases.createDatabase(
+        "sup_datasource",
+        "supabase",
         connectionParams
       );
-      WeatherPredictorModel = await MindsDB.Models.trainModel(
-        "weather_predictor_model",
-        "weather",
+     
+      ScorePredictorModel = await MindsDB.Models.trainModel(
+        "score_predictor_model",
+        "FTR",
         "mindsdb",
         regressionTrainingOptions
       );
     }
+    console.log("con---->>>>",db);
 
     // console.log("value ==>", weatherPrediction.value);
     // console.log("explain ==>", weatherPrediction.explain);
     // console.log("data ==>", weatherPrediction.data);
-    console.log("res ==>", [response]);
+    // console.log("res ==>", [response]);
   } catch (error) {
     // Failed to authenticate.
     console.log(error);
   }
-  WeatherPredictorModel = await MindsDB.Models.getModel(
-    "weather_predictor_model",
+
+  ScorePredictorModel = await MindsDB.Models.getModel(
+    "score_predictor_model",
     "mindsdb"
   );
 
@@ -110,10 +115,10 @@ export async function getServerSideProps() {
       "wind = 0.3",
     ],
   };
-  const weatherPrediction = await WeatherPredictorModel.query(queryOptions);
+  const weatherPrediction = await ScorePredictorModel.query(queryOptions);
   const response = weatherPrediction;
-  console.log("res ==>", [response]);
+  // console.log("res ==>", [response]);
   return {
-    props: { response },
+    props: { },
   };
 }
