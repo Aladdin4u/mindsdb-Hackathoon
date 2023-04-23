@@ -1,11 +1,9 @@
-// import MindsDB from "mindsdb-js-sdk";
-import Chart from "chart.js/auto";
-import { CategoryScale } from "chart.js";
-import { Pie, Bar } from "react-chartjs-2";
+import Image from "next/image";
 import { useState } from "react";
+// import MindsDB from "mindsdb-js-sdk";
+import Stats from "../components/Stats";
 import teams from "../teams";
 
-Chart.register(CategoryScale);
 export default function Home() {
   // console.log(response);
   const [eplTeams, setEplTeam] = useState(teams);
@@ -29,107 +27,56 @@ export default function Home() {
     }
     console.log("predicting score");
   };
-  const Data = [
-    { year: 2010, count: 10 },
-    { year: 2011, count: 20 },
-    { year: 2012, count: 15 },
-    { year: 2013, count: 25 },
-    { year: 2014, count: 22 },
-    { year: 2015, count: 30 },
-    { year: 2016, count: 28 },
-  ];
-
-  const data = {
-    labels: Data.map((row) => row.year),
-    datasets: [
-      {
-        label: "Acquisitions by year",
-        data: Data.map((row) => row.count),
-      },
-    ],
-    backgroundColor: ["blue", "red", "green", "purple"],
-  };
+ const bgStyle = {
+  backgroundImage: 'url("/images/stadium.jpg")'
+ }
   return (
-    <div>
-      <h1 className="text-3xl font-bold underline">
-        Welcome to English premier league forecast
-      </h1>
-      <form onSubmit={handleSubmit}>
+    <div className="bg-cover bg-center bg-local" style={bgStyle}>
+
+    <div className=" mx-auto max-w-4xl p-8 flex flex-col gap-2 justify-center items-center">
+      <h1 className="text-3xl text-white font-bold">Predictor match outcome</h1>
+      
+      <form onSubmit={handleSubmit} className="w-full gap-4 flex flex-col py-14 justify-center items-center">
         <input
           list="hometeams"
           name="homeTeam"
           placeholder="pick home team"
           onChange={handleChange}
           value={teamForm.homeTeam}
-          className="px-3 py-2 border rounded-lg"
+          className="w-full px-3 py-2 border rounded-lg"
         />
-        VS
         <datalist id="hometeams">
           {eplTeams.map((team) => (
             <option value={team.name} />
           ))}
         </datalist>
+
+        <span className="px-3 py-2 text-green-500 font-bold">VS</span>
+
         <input
           list="awayteams"
           name="awayTeam"
           placeholder="pick away team"
           onChange={handleChange}
           value={teamForm.awayTeam}
-          className="px-3 py-2 border rounded-lg"
+          className="w-full px-3 py-2 border rounded-lg"
         />
         <datalist id="awayteams">
           {eplTeams.map((team) => (
             <option value={team.name} />
           ))}
         </datalist>
-        <button className="px-3 py-2 border rounded-lg text-white bg-blue-500 hover:bg-blue-800">
+        <button className="mt-4 w-full px-3 py-2 rounded-lg text-white text-xl justify-center items-center uppercase font-bold bg-blue-500 hover:bg-blue-800 focus:ring focus:ring-blue-500 focus:ring-offset-2">
           Predict
         </button>
       </form>
 
-      <div className="bg-purple-900 w-full p-8 flex flex-col gap-2 justify-center items-center">
-        <h2 className="text-white font-bold text-lg">Stamford Bridge</h2>
-        <h4 className="text-purple-300 font-medium text-sm">Week 10</h4>
-        <div className="w-full flex justify-between items-center">
-          <div className="flex-col justify-center items-center text-center">
-            <div className="w-16 h-16 bg-blue-600"></div>
-            <h2 className="text-white font-bold text-lg">Chelsea</h2>
-            <h4 className="text-purple-300 font-medium text-sm">Home</h4>
-          </div>
-          <div className="flex-col justify-center items-center text-center">
-            <div className="flex-row justify-between items-center text-white font-bold">
-              <span>1</span>
-              <span>:</span>
-              <span>1</span>
-            </div>
-            <h4 className="mt-2 bg-green-300 text-green-900 font-bold rounded-full border-2 border-green-900 px-3 py-2 text-sm">90+4</h4>
-          </div>
-          <div className="flex-col justify-center items-center text-center">
-            <div className="w-16 h-16 bg-red-600"></div>
-            <h2 className="text-white font-bold text-lg">Man United</h2>
-            <h4 className="text-purple-300 font-medium text-sm">Away</h4>
-          </div>
-        </div>
-      </div>
-
-      <div className="w-[18] h-[18]">
-        <h2>Pie Chart</h2>
-        <Bar
-          data={data}
-          options={{
-            Plugin: {
-              title: {
-                display: true,
-                text: "Users gained between 2010-2016",
-              },
-            },
-          }}
-        />
-      </div>
+      <Stats />
       {/* <div>
         <h2>weater : {response.value}</h2>
         <pre>{JSON.stringify(response, null, 4)}</pre>
       </div> */}
+    </div>
     </div>
   );
 }
