@@ -8,28 +8,27 @@ import teams from "../teams";
 Chart.register(CategoryScale);
 export default function Home() {
   // console.log(response);
-  const [eplTeams, setEplTeam] = useState(teams)
+  const [eplTeams, setEplTeam] = useState(teams);
   const [teamForm, setTeamForm] = useState({
     homeTeam: "",
-    awayTeam: ""
+    awayTeam: "",
   });
-  
-const handleChange = (e) => {
-  setTeamForm(prevTeamData => {
-    return {
-      ...prevTeamData,
-      [e.target.name]: e.target.value
-    }
-  })
-}
-const handleSubmit = (e) => {
-  e.preventDefault()
-  if(teamForm.homeTeam === teamForm.awayTeam) {
-    console.log("both teams are the same")
-  }
-  console.log("predicting score")
 
-}
+  const handleChange = (e) => {
+    setTeamForm((prevTeamData) => {
+      return {
+        ...prevTeamData,
+        [e.target.name]: e.target.value,
+      };
+    });
+  };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (teamForm.homeTeam === teamForm.awayTeam) {
+      console.log("both teams are the same");
+    }
+    console.log("predicting score");
+  };
   const Data = [
     { year: 2010, count: 10 },
     { year: 2011, count: 20 },
@@ -56,24 +55,62 @@ const handleSubmit = (e) => {
         Welcome to English premier league forecast
       </h1>
       <form onSubmit={handleSubmit}>
-        <input 
-        list="hometeams" 
-        name="homeTeam"
-        onChange={handleChange}
+        <input
+          list="hometeams"
+          name="homeTeam"
+          placeholder="pick home team"
+          onChange={handleChange}
+          value={teamForm.homeTeam}
+          className="px-3 py-2 border rounded-lg"
         />
+        VS
         <datalist id="hometeams">
-          {eplTeams.map(team => <option value={team.name} />)}
+          {eplTeams.map((team) => (
+            <option value={team.name} />
+          ))}
         </datalist>
-        <input 
-        list="awayteams" 
-        name="awayTeam"
-        onChange={handleChange}
+        <input
+          list="awayteams"
+          name="awayTeam"
+          placeholder="pick away team"
+          onChange={handleChange}
+          value={teamForm.awayTeam}
+          className="px-3 py-2 border rounded-lg"
         />
         <datalist id="awayteams">
-          {eplTeams.map(team => <option value={team.name} />)}
+          {eplTeams.map((team) => (
+            <option value={team.name} />
+          ))}
         </datalist>
-        <button>Predict</button>
+        <button className="px-3 py-2 border rounded-lg text-white bg-blue-500 hover:bg-blue-800">
+          Predict
+        </button>
       </form>
+
+      <div className="bg-purple-900 w-full p-8 flex flex-col gap-2 justify-center items-center">
+        <h2 className="text-white font-bold text-lg">Stamford Bridge</h2>
+        <h4 className="text-purple-300 font-medium text-sm">Week 10</h4>
+        <div className="w-full flex justify-between items-center">
+          <div className="flex-col justify-center items-center text-center">
+            <div className="w-16 h-16 bg-blue-600"></div>
+            <h2 className="text-white font-bold text-lg">Chelsea</h2>
+            <h4 className="text-purple-300 font-medium text-sm">Home</h4>
+          </div>
+          <div className="flex-col justify-center items-center text-center">
+            <div className="flex-row justify-between items-center text-white font-bold">
+              <span>1</span>
+              <span>:</span>
+              <span>1</span>
+            </div>
+            <h4 className="mt-2 bg-green-300 text-green-900 font-bold rounded-full border-2 border-green-900 px-3 py-2 text-sm">90+4</h4>
+          </div>
+          <div className="flex-col justify-center items-center text-center">
+            <div className="w-16 h-16 bg-red-600"></div>
+            <h2 className="text-white font-bold text-lg">Man United</h2>
+            <h4 className="text-purple-300 font-medium text-sm">Away</h4>
+          </div>
+        </div>
+      </div>
 
       <div className="w-[18] h-[18]">
         <h2>Pie Chart</h2>
