@@ -1,6 +1,9 @@
 import Image from "next/image";
+import teams from "../teams";
 
-export default function Stats() {
+export default function Stats({matchdetails}) {
+  let homelogo = teams.find(team => team.name === matchdetails.hometeam ? team.logo : null)
+  let awaylogo = teams.find(team => team.name === matchdetails.awayteam ? team.logo : null)
     return (
       <>
        <div className="relative bg-purple-900 w-full p-8 flex flex-col gap-2 justify-center items-center rounded-lg shadow-lg">
@@ -22,23 +25,23 @@ export default function Stats() {
           <h4 className="text-purple-300 font-medium text-sm">Week 10</h4>
           <div className="w-full flex flex-row justify-between items-center">
             <div className="flex flex-col justify-center items-center">
-              <Image src="/logo/chelsea.png" width={50} height={50} />
-              <h2 className="text-white font-bold text-lg">Chelsea</h2>
+              <Image src={homelogo.logo} width={50} height={50} alt={matchdetails.hometeam} />
+              <h2 className="text-white font-bold text-lg">{matchdetails.hometeam}</h2>
               <h4 className="text-purple-300 font-medium text-sm">Home</h4>
             </div>
             <div className="flex-col justify-center items-center text-center">
               <div className="flex-row w-full justify-between items-center text-white font-bold">
-                <span className="p-2 text-xl">1</span>
+                <span className="p-2 text-xl">{matchdetails.fthg}</span>
                 <span className="p-2 text-xl">:</span>
-                <span className="p-2 text-xl">1</span>
+                <span className="p-2 text-xl">{matchdetails.ftag}</span>
               </div>
               <h4 className="mt-4 hover:bg-green-200 text-green-700 font-bold rounded-full border-2 border-green-700 px-4 py-1.5 text-sm">
-                90+4
+                FT
               </h4>
             </div>
             <div className="flex flex-col justify-center items-center">
-              <Image src="/logo/manutd.png" width={50} height={50} />
-              <h2 className="text-white font-bold text-lg">Man United</h2>
+              <Image src={awaylogo.logo} width={50} height={50} alt={matchdetails.awayteam} />
+              <h2 className="text-white font-bold text-lg">{matchdetails.awayteam}</h2>
               <h4 className="text-purple-300 font-medium text-sm">Away</h4>
             </div>
           </div>
@@ -47,14 +50,14 @@ export default function Stats() {
       <div className="backdrop-blur-sm bg-blue/30 p-4 w-full flex flex-col gap-4">
         <h1 className="text-white text-bold text-xl">Match stats</h1>
         <div className="flex justify-between items-center text-white">
-          <span>15</span>
+          <span>{matchdetails.hs}</span>
           <span>Shots</span>
-          <span>15</span>
+          <span>{matchdetails.as}</span>
         </div>
         <div className="flex justify-between items-center text-white">
-          <span>5</span>
+          <span>{matchdetails.hst}</span>
           <span>Shots on target</span>
-          <span>6</span>
+          <span>{matchdetails.ast}</span>
         </div>
         <div className="flex justify-between items-center text-white">
           <span>656</span>
@@ -67,19 +70,19 @@ export default function Stats() {
           <span>71%</span>
         </div>
         <div className="flex justify-between items-center text-white">
-          <span>17</span>
+          <span>{matchdetails.hf}</span>
           <span>Fouls</span>
-          <span>13</span>
+          <span>{matchdetails.af}</span>
         </div>
         <div className="flex justify-between items-center text-white">
-          <span>1</span>
+          <span>{matchdetails.hy}</span>
           <span>Yellow cards</span>
-          <span>3</span>
+          <span>{matchdetails.ay}</span>
         </div>
         <div className="flex justify-between items-center text-white">
-          <span>0</span>
+          <span>{matchdetails.hr}</span>
           <span>Red cards</span>
-          <span>0</span>
+          <span>{matchdetails.ar}</span>
         </div>
         <div className="flex justify-between items-center text-white">
           <span>0</span>
@@ -87,9 +90,9 @@ export default function Stats() {
           <span>1</span>
         </div>
         <div className="flex justify-between items-center text-white">
-          <span>8</span>
+          <span>{matchdetails.hc}</span>
           <span>Corners</span>
-          <span>3</span>
+          <span>{matchdetails.ac}</span>
         </div>
       </div>
 

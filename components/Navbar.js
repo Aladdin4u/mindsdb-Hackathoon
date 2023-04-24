@@ -7,7 +7,7 @@ export default function Navbar() {
       <h1 className="text-blue-500 text-2xl font-bold uppercase mr-auto">EPL Predictor</h1>
       <ul className="hidden lg:flex flex-wrap space-x-4">
         {teams.map((team) => (
-          <li>
+          <li key={team.name}>
             <Image src={team.logo} width={16} height={16} alt={team.name} />
           </li>
         ))}
