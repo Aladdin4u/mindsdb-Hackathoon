@@ -12,6 +12,7 @@
   "author": "aladdin",
   "license": "ISC",
   "dependencies": {
+    "axios": "^1.3.6",
     "chart.js": "^4.2.1",
     "mindsdb-js-sdk": "^2.2.0",
     "next": "^13.3.0",

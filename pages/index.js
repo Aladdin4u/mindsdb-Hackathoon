@@ -1,16 +1,17 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import MindsDB from "mindsdb-js-sdk";
+import axios from "axios";
 import Stats from "../components/Stats";
 import teams from "../teams";
 
-export default function Home({ FTPrediction }) {
-  // console.log("ftftf",FTPrediction);
+export default function Home() {
   const [eplTeams, setEplTeam] = useState(teams);
   const [teamForm, setTeamForm] = useState({
     homeTeam: "",
     awayTeam: "",
   });
+  const [data, setData] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     setTeamForm((prevTeamData) => {
@@ -20,20 +21,22 @@ export default function Home({ FTPrediction }) {
       };
     });
   };
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     if (teamForm.homeTeam === teamForm.awayTeam) {
       setTeamForm({ homeTeam: "", awayTeam: "" });
       return alert("both teams are the same, choose different teams");
     }
-    const data = fetch("api/user", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(teamForm),
-    });
-    console.log("data--->", data);
+    try {
+      const res = await axios.post("/api/teamSelection", teamForm);
+      setData(res.data);
+      setTeamForm({ homeTeam: "", awayTeam: "" });
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      console.log(error);
+    }
   };
   const bgStyle = {
     backgroundImage: 'url("/images/stadium.jpg")',
@@ -78,74 +81,13 @@ export default function Home({ FTPrediction }) {
               <option value={team.name} key={team.name} />
             ))}
           </datalist>
-          <button className="mt-4 w-full px-3 py-2 rounded-lg text-white text-xl justify-center items-center uppercase font-bold bg-blue-500 hover:bg-blue-800 focus:ring focus:ring-blue-500 focus:ring-offset-2">
+          <button disabled={loading ? "disabled" : ""} className="mt-4 w-full px-3 py-2 rounded-lg text-white text-xl justify-center items-center uppercase font-bold bg-blue-500 hover:bg-blue-800 focus:ring focus:ring-blue-500 focus:ring-offset-2">
             Predict
           </button>
         </form>
 
-        {FTPrediction && <Stats matchdetails={FTPrediction[0].data} />}
-        {/* <div>
-          <h2>weater : {FTPrediction.value}</h2>
-          <pre>{JSON.stringify(FTPrediction, null, 4)}</pre>
-        </div> */}
+        {data && <Stats matchdetails={data[0].data} />}
       </div>
     </div>
   );
-}
-
-export async function getServerSideProps() {
-  const connectionParams = {
-    host: process.env.SUPERBASE_HOST,
-    port: process.env.SUPERBASE_PORT,
-    database: process.env.SUPERBASE_DB,
-    user: process.env.SUPERBASE_USER,
-    password: process.env.SUPERBASE_PASS,
-  };
-  const regressionTrainingOptions = {
-    select: "SELECT * FROM matchstats",
-    integration: "sup_datasource",
-    groupBy: ["FTHG", "FTAG"],
-  };
-  let ScorePredictorModel;
-  try {
-    await MindsDB.connect({
-      user: process.env.MINDDB_USER,
-      password: process.env.MINDDB_PASS,
-    });
-
-    // Can also use MindsDB.Databases.getAllDatabases() to get all databases.
-    const db = await MindsDB.Databases.getDatabase("sup_datasource");
-    if (!db) {
-      const sup = await MindsDB.Databases.createDatabase(
-        "sup_datasource",
-        "supabase",
-        connectionParams
-      );
-
-      ScorePredictorModel = await MindsDB.Models.trainModel(
-        "ft2_scores_model",
-        "FTR",
-        "mindsdb",
-        regressionTrainingOptions
-      );
-    }
-  } catch (error) {
-    // Failed to authenticate.
-    console.log(error);
-  }
-
-  ScorePredictorModel = await MindsDB.Models.getModel(
-    "ft2_scores_model",
-    "mindsdb"
-  );
-  
-  const queryOptions = {
-    // Join model to this data source.
-    join: "sup_datasource.matchstats",
-    where: ['t.HomeTeam = "Arsenal"', 't.AwayTeam = "Chelsea"'],
-  };
-  const FTPrediction = await ScorePredictorModel.batchQuery(queryOptions);
-  return {
-    props: { FTPrediction },
-  };
 }
