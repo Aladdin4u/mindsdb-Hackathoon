@@ -2,7 +2,6 @@ import MindsDB from "mindsdb-js-sdk";
 
 export default async function handler(req, res) {
   const { homeTeam, awayTeam } = req.body;
-  console.log("teeeee", req.body);
   if (req.method === "POST") {
     const connectionParams = {
       host: process.env.SUPERBASE_HOST,

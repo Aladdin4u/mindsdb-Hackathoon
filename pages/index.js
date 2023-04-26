@@ -1,7 +1,7 @@
-import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import axios from "axios";
 import Stats from "../components/Stats";
+import Loader from "../components/Loader";
 import teams from "../teams";
 
 export default function Home() {
@@ -36,13 +36,14 @@ export default function Home() {
     } catch (error) {
       setLoading(false);
       console.log(error);
+      return alert("Network error, retry!!!");
     }
   };
-  const bgStyle = {
+  const bgImage = {
     backgroundImage: 'url("/images/stadium.jpg")',
   };
   return (
-    <div className="bg-cover bg-center bg-local" style={bgStyle}>
+    <div className="bg-cover bg-center bg-local" style={bgImage}>
       <div className=" mx-auto max-w-4xl p-8 flex flex-col gap-2 justify-center items-center">
         <h1 className="text-3xl text-white font-bold">
           Predictor match outcome
@@ -52,6 +53,7 @@ export default function Home() {
           onSubmit={handleSubmit}
           className="w-full gap-4 flex flex-col py-14 justify-center items-center"
         >
+          {loading && <Loader />}
           <input
             list="hometeams"
             name="homeTeam"
@@ -82,10 +84,10 @@ export default function Home() {
             ))}
           </datalist>
           <button disabled={loading ? "disabled" : ""} className="mt-4 w-full px-3 py-2 rounded-lg text-white text-xl justify-center items-center uppercase font-bold bg-blue-500 hover:bg-blue-800 focus:ring focus:ring-blue-500 focus:ring-offset-2">
-            Predict
+            {loading ? "Predicting..." : "Predict"}
           </button>
         </form>
-
+        
         {data && <Stats matchdetails={data[0].data} />}
       </div>
     </div>

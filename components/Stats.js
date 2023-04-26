@@ -21,8 +21,8 @@ export default function Stats({matchdetails}) {
           />
         </svg>
         <div className="absolute w-full px-8 flex gap-2 flex-col justify-center items-center">
-          <h2 className="text-white font-bold text-lg">Stamford Bridge</h2>
-          <h4 className="text-purple-300 font-medium text-sm">Week 10</h4>
+          <h2 className="text-white font-bold text-lg">Premier League</h2>
+          <h4 className="text-purple-300 font-medium text-sm uppercase">Matchday</h4>
           <div className="w-full flex flex-row justify-between items-center">
             <div className="flex flex-col justify-center items-center">
               <Image src={homelogo.logo} width={50} height={50} alt={matchdetails.hometeam} />
@@ -35,7 +35,7 @@ export default function Stats({matchdetails}) {
                 <span className="p-2 text-xl">:</span>
                 <span className="p-2 text-xl">{matchdetails.ftag}</span>
               </div>
-              <h4 className="mt-4 hover:bg-green-200 text-green-700 font-bold rounded-full border-2 border-green-700 px-4 py-1.5 text-sm">
+              <h4 className="mt-4 hover:bg-purple-500 text-white font-bold rounded-full border-2 border-purple-700 px-4 py-1.5 text-sm">
                 FT
               </h4>
             </div>
