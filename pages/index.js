@@ -24,9 +24,14 @@ export default function Home() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
+    if(!teamForm.homeTeam || !teamForm.awayTeam) {
+      setLoading(false);
+      return alert("Invalid home and away team");
+    }
     if (teamForm.homeTeam === teamForm.awayTeam) {
       setTeamForm({ homeTeam: "", awayTeam: "" });
-      return alert("both teams are the same, choose different teams");
+      setLoading(false);
+      return alert("Both teams are the same, choose a different team");
     }
     try {
       const res = await axios.post("/api/teamSelection", teamForm);
@@ -34,9 +39,9 @@ export default function Home() {
       setTeamForm({ homeTeam: "", awayTeam: "" });
       setLoading(false);
     } catch (error) {
+      setTeamForm({ homeTeam: "", awayTeam: "" });
       setLoading(false);
-      console.log(error);
-      return alert("Network error, retry!!!");
+      return alert(error.response.statusText);
     }
   };
   const bgImage = {
@@ -46,7 +51,7 @@ export default function Home() {
     <div className="bg-cover bg-center bg-local" style={bgImage}>
       <div className=" mx-auto max-w-4xl p-8 flex flex-col gap-2 justify-center items-center">
         <h1 className="text-3xl text-white font-bold">
-          Predictor match outcome
+          Predict match outcome
         </h1>
 
         <form
@@ -83,11 +88,14 @@ export default function Home() {
               <option value={team.name} key={team.name} />
             ))}
           </datalist>
-          <button disabled={loading ? "disabled" : ""} className="mt-4 w-full px-3 py-2 rounded-lg text-white text-xl justify-center items-center uppercase font-bold bg-blue-500 hover:bg-blue-800 focus:ring focus:ring-blue-500 focus:ring-offset-2">
+          <button
+            disabled={loading ? "disabled" : ""}
+            className="mt-4 w-full px-3 py-2 rounded-lg text-white text-xl justify-center items-center uppercase font-bold bg-blue-500 hover:bg-blue-800 focus:ring focus:ring-blue-500 focus:ring-offset-2"
+          >
             {loading ? "Predicting..." : "Predict"}
           </button>
         </form>
-        
+
         {data && <Stats matchdetails={data[0].data} />}
       </div>
     </div>
