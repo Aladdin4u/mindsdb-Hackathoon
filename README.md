@@ -2,16 +2,17 @@
 
 A English premier league(EPL) predictor using MindsDB to make forcast and integrated with supabase database
 
+## Before you begin
+    Before you begin we recommend you read about the docs:
+    - Mindsdb Go through [MindsDB Official Website](https://mindsdb.com/)
+    - Supabase Go through [Supabase Official Website](http://https://supabase.com/)
 ## Prerequisites
-
     Make sure you have the following installed on your machine
-    - nodejs
-    - Mindsdb
-    - Supabase
+    - Node.js
 
 ## How It's Made:
 
-**Tech used:**<p>![NextJS](https://img.shields.io/static/v1?label=|&message=NEXT.JS&color=2b625f&style=plastic&logo=next.js) ![MindsDB](https://img.shields.io/static/v1?label=|&message=MINDSDB&color=bbb111&style=plastic&logo=mindsDB) ![Supabase](https://img.shields.io/static/v1?label=|&message=SUPABASE&color=bbb111&style=plastic&logo=supabase)</p>
+**Tech used:**<p>![NextJS](https://img.shields.io/static/v1?label=|&message=NEXT.JS&color=2b625f&style=plastic&logo=next.js) ![MindsDB](https://img.shields.io/static/v1?label=|&message=MINDSDB&color=bbb111&style=plastic&logo=mindsDB) ![Supabase](https://img.shields.io/static/v1?label=|&message=SUPABASE&color=40cd8c&style=plastic&logo=supabase)</p>
 
 ## Optimizations
 

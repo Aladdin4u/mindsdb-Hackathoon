@@ -3,7 +3,7 @@ import { CategoryScale } from "chart.js";
 import { Pie, Bar } from "react-chartjs-2";
 Chart.register(CategoryScale);
 
-export default function Chart() {
+export default function Chartjs() {
   const Data = [
     { year: 2010, count: 10 },
     { year: 2011, count: 20 },
