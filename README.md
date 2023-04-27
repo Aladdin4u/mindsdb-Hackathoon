@@ -1,14 +1,16 @@
-# mindsdb-Hackathoon
+# mindsdb-Hackathoon - EPL Predictor
 
 A English premier league(EPL) predictor using MindsDB to make forcast and integrated with supabase database
+![eplhomepage](https://user-images.githubusercontent.com/101972392/234756667-5a719c53-272a-43b7-96e9-3ed384fbc001.jpg)
+![eplprediction](https://user-images.githubusercontent.com/101972392/234756705-0aa277ed-bf26-43f5-80bc-2012a9ddc350.jpg)
 
 ## Before you begin
-    Before you begin we recommend you read about the docs:
-    - Mindsdb Go through [MindsDB Official Website](https://mindsdb.com/)
-    - Supabase Go through [Supabase Official Website](http://https://supabase.com/)
+Before you begin we recommend you read about the docs:
+* Mindsdb - Go through [MindsDB Official Website](https://mindsdb.com/) docs
+* Supabase Go through [Supabase Official Website](https://supabase.com/) docs
 ## Prerequisites
-    Make sure you have the following installed on your machine
-    - Node.js
+Make sure you have the following installed on your machine
+* Node.js
 
 ## How It's Made:
 
@@ -30,7 +32,7 @@ I learnt how to integrate mindsDb with supabsae using using datasets from kaggle
    cp .env.local.example .env.local
    ```
 1. Enter your data into .env.local
-1. run `npm intall` 
+1. run `npm intall`
 
 ## Usage:
 
