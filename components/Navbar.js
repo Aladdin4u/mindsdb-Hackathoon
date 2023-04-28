@@ -8,7 +8,7 @@ export default function Navbar() {
       <ul className="hidden lg:flex flex-wrap space-x-4">
         {teams.map((team) => (
           <li key={team.name}>
-            <Image src={team.logo} width={16} height={16} alt={team.name} />
+            <Image src={team.logo} width={16} height={16} alt={team.name} className="w-full h-full" />
           </li>
         ))}
       </ul>

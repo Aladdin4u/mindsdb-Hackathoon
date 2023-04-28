@@ -50,8 +50,8 @@ export default function Home() {
   return (
     <div className="bg-cover bg-center bg-local" style={bgImage}>
       <div className=" mx-auto max-w-4xl p-8 flex flex-col gap-2 justify-center items-center">
-        <h1 className="text-3xl text-white font-bold">
-          Predict match outcome
+        <h1 className="text-3xl text-white font-bold uppercase">
+          Scores Predictor
         </h1>
 
         <form

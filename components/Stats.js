@@ -60,16 +60,6 @@ export default function Stats({matchdetails}) {
           <span>{matchdetails.ast}</span>
         </div>
         <div className="flex justify-between items-center text-white">
-          <span>656</span>
-          <span>Passes</span>
-          <span>412</span>
-        </div>
-        <div className="flex justify-between items-center text-white">
-          <span>83%</span>
-          <span>Pass Accuracy</span>
-          <span>71%</span>
-        </div>
-        <div className="flex justify-between items-center text-white">
           <span>{matchdetails.hf}</span>
           <span>Fouls</span>
           <span>{matchdetails.af}</span>

@@ -1,7 +1,6 @@
 export default [
     {name: "Arsenal", logo: "/logo/arsenal.png"},
     {name: "Aston Villa", logo: "/logo/astonvilla.png"},
-    {name: "Bournemouth", logo: "/logo/bournemouth.png"},
     {name: "Brentford", logo: "/logo/brentford.png"},
     {name: "Burnley", logo: "/logo/burnley.jpg"},
     {name: "Brighton", logo: "/logo/brighton.png"},
@@ -17,7 +16,6 @@ export default [
     {name: "Watford", logo: "/logo/wat.png"},
     {name: "Newcastle", logo: "/logo/newcastle.png"},
     {name: "Norwich", logo: "/logo/norwich.png"},
-    {name: "Nottingham", logo: "/logo/nottingham.png"},
     {name: "Southampton", logo: "/logo/southampton.png"},
     {name: "Tottenham", logo: "/logo/tottenham.png"},
     {name: "West Ham", logo: "/logo/westham.png"},
