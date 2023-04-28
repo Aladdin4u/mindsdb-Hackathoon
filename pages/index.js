@@ -58,7 +58,7 @@ export default function Home() {
           onSubmit={handleSubmit}
           className="w-full gap-4 flex flex-col py-14 justify-center items-center"
         >
-          {loading && <Loader />}
+          
           <input
             list="hometeams"
             name="homeTeam"
@@ -90,11 +90,14 @@ export default function Home() {
           </datalist>
           <button
             disabled={loading ? "disabled" : ""}
-            className="mt-4 w-full px-3 py-2 rounded-lg text-white text-xl justify-center items-center uppercase font-bold bg-blue-500 hover:bg-blue-800 focus:ring focus:ring-blue-500 focus:ring-offset-2"
+            className={`mt-4 w-full px-3 py-2 rounded-lg text-white text-xl justify-center items-center uppercase font-bold bg-blue-500 hover:bg-blue-800 focus:ring focus:ring-blue-500 focus:ring-offset-2 ${loading? "cursor-progress" : ""}`}
           >
             {loading ? "Predicting..." : "Predict"}
           </button>
         </form>
+        {loading && <div className="w-full min-h-screen absolute flex justify-center items-center">
+          <Loader/>
+        </div>}
 
         {data && <Stats matchdetails={data[0].data} />}
       </div>
