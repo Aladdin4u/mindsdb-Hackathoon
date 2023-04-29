@@ -8,7 +8,7 @@ export default function Footer() {
         <Image src="/images/mindsdbim.png" alt="mindsdb" width={50} height={50} priority className="w-full h-full" />
         <Image src="/images/supabase-logo-wordmark--dark.png" alt="supabase" width={100} height={100} priority className="w-full h-full" />
       </div>
-      <p>&copy; aladdin 2023. All right reversed</p>
+      <p>&copy; <a href="https://github.com/Aladdin4u/mindsdb-Hackathoon" className="text-blue-500 hover:underline">aladdin</a> 2023. All right reversed</p>
       
     </div>
   );

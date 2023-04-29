@@ -53,6 +53,9 @@ export default function Home() {
         <h1 className="text-3xl text-white font-bold uppercase">
           Scores Predictor
         </h1>
+        <p className="text-sm text-white font-medium">
+          choose from the teams in the input fields
+        </p>
 
         <form
           onSubmit={handleSubmit}
