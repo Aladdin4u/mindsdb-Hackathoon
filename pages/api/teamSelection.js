@@ -32,7 +32,7 @@ export default async function handler(req, res) {
         );
 
         ScorePredictorModel = await MindsDB.Models.trainModel(
-          "ft2_scores_model",
+          "ft2_scores_model_v1",
           "FTR",
           "mindsdb",
           regressionTrainingOptions
@@ -44,7 +44,7 @@ export default async function handler(req, res) {
     }
 
     ScorePredictorModel = await MindsDB.Models.getModel(
-      "ft2_scores_model",
+      "ft2_scores_model_v1",
       "mindsdb"
     );
 
