@@ -32,7 +32,7 @@ I learnt how to integrate mindsDb with supabsae using using datasets from kaggle
    cp .env.local.example .env.local
    ```
 1. Enter your data into .env.local
-1. run `npm intall`
+1. run `npm install`
 
 ## Usage:
 
